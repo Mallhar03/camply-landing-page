@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { FadeIn } from './FadeIn';
 
 const ContactSection: React.FC = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const form = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('Sending...');
-    // Simulate form submission
-    setTimeout(() => {
-      setStatus(`Thank you, ${formData.name}! Your message has been sent.`);
-      setFormData({ name: '', email: '', message: '' });
-    }, 1500);
+
+    if (form.current) {
+      emailjs.sendForm('service_ggj46ue', 'template_82tzw5d', form.current, 'EcnnQLiZCKFzGODgm')
+        .then((result) => {
+            console.log(result.text);
+            setStatus('Message sent successfully!');
+            form.current?.reset();
+        }, (error) => {
+            console.log(error.text);
+            setStatus('Failed to send message. Please try again later.');
+        });
+    }
   };
 
   return (
@@ -32,45 +35,39 @@ const ContactSection: React.FC = () => {
 
         <FadeIn delay={200}>
           <div className="max-w-2xl mx-auto bg-slate-800 p-8 rounded-xl border border-slate-700">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={form} onSubmit={sendEmail} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  value={formData.name}
-                  onChange={handleChange}
-                  required 
-                  className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300" 
+                <input
+                  type="text"
+                  id="name"
+                  name="user_name"
+                  required
+                  className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                 />
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  value={formData.email}
-                  onChange={handleChange}
-                  required 
+                <input
+                  type="email"
+                  id="email"
+                  name="user_email"
+                  required
                   className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                 />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">Message</label>
-                <textarea 
-                  id="message" 
+                <textarea
+                  id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={4} 
-                  required 
+                  rows={4}
+                  required
                   className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-300"
                 ></textarea>
               </div>
-              <div className="flex justify-between items-center">
-                  <button 
+              <div className="flex justify-between items-.center">
+                  <button
                     type="submit"
                     className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20"
                   >
