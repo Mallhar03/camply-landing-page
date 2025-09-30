@@ -16,7 +16,7 @@ const PricingSection: React.FC = () => {
   ];
 
   const proFeatures = [
-    "Business Network Access (e.g. \"CEDAT\")",
+    "Business Network Access",
     "View detailed user experience & success blueprints",
     "Submit and access verified solutions for 'Problem of the Day'",
     "Unlimited access to the 'Find My Teammate' feature",
