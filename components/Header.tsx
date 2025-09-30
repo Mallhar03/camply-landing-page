@@ -8,9 +8,9 @@ const Header: React.FC = () => {
           camply<span className="text-orange-400">.</span>
         </h1>
         <nav className="hidden md:flex space-x-8 items-center">
-          <a href="#features" className="hover:text-orange-400 transition-colors duration-300">Features</a>
-          <a href="#pricing" className="hover:text-orange-400 transition-colors duration-300">Pricing</a>
-          <a href="#contact" className="hover:text-orange-400 transition-colors duration-300">Contact</a>
+          <a href="#features" onClick={(e) => { e.preventDefault(); document.querySelector('#features')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-orange-400 transition-colors duration-300">Features</a>
+          <a href="#pricing" onClick={(e) => { e.preventDefault(); document.querySelector('#pricing')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-orange-400 transition-colors duration-300">Pricing</a>
+          <a href="#contact" onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-orange-400 transition-colors duration-300">Contact</a>
         </nav>
         <a 
           href="https://app.camply.live"

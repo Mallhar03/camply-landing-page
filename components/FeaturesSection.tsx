@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { FadeIn } from './FadeIn';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -40,50 +41,20 @@ const FeaturesSection: React.FC = () => {
     },
   ];
 
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const currentRef = sectionRef.current;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(currentRef!);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
   return (
-    <section id="features" ref={sectionRef} className="py-20 bg-slate-900">
+    <section id="features" className="py-20 bg-slate-900">
       <div className="container mx-auto px-6">
-        <div className={`text-center mb-16 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">The Ultimate Career Accelerator</h2>
-          <p className="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Everything you need to succeed, all in one place.</p>
-        </div>
+        <FadeIn>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">The Ultimate Career Accelerator</h2>
+            <p className="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Everything you need to succeed, all in one place.</p>
+          </div>
+        </FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
-            <div
-              key={index}
-              className={`transition-all duration-500 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-              style={{
-                transitionDelay: `${150 * index}ms`,
-              }}
-            >
+            <FadeIn key={index} delay={150 * index}>
               <FeatureCard {...feature} />
-            </div>
+            </FadeIn>
           ))}
         </div>
       </div>
