@@ -13,7 +13,7 @@ const Header: React.FC = () => {
           <a href="#contact" onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-orange-400 transition-colors duration-300">Contact</a>
         </nav>
         <a 
-          href="https://app.camply.live"
+          href="https://camply.live"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 border border-slate-700 hover:border-orange-500"
